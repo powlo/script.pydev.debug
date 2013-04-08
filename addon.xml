@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.pydev.debug"
+       name="XMBC Pydev Debug"
+       version="0.0.1"
+       provider-name="powlo">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="resources/lib/patch"/>
+  <extension point="xbmc.python.module" library="resources/lib/link"/>
+  <extension point="xbmc.service" library="service.py" start="startup"/>
+  <extension point="xbmc.python.script" library="default.py"/>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">XBMC support for Pydev debugging.</summary>
+    <description lang="en">A script to help setup active remote debugging of Python code in Eclipse/Aptana using the Pydev plugin. Creates a symlink to the provided pysrc path and patches pydev_file_utils to work with xbmc.</description>
+  </extension>
+</addon>
