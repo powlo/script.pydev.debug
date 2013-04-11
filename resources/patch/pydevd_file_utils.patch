@@ -1,0 +1,24 @@
+
+#------------------------------------------
+#Patch file utils to support xbmc paths.
+#------------------------------------------
+import xbmc
+from functools import wraps
+    
+def xbmcfilenamedecorator(func):
+    """
+    Apply decorator to translate xbmc-type filenames
+    Eg, 'special://xbmc' translates to '/usr/share/xbmc/' under linux.
+    """
+    @wraps(func)
+    def xbmcfilename(filename):
+        filename = xbmc.translatePath(filename)
+        return func(filename)
+    return xbmcfilename
+
+_NormFile = xbmcfilenamedecorator(_NormFile)
+NormFileToServer = xbmcfilenamedecorator(NormFileToServer)
+NormFileToClient = xbmcfilenamedecorator(NormFileToClient)
+#------------------------------------------
+#End patch
+#------------------------------------------
