@@ -27,20 +27,21 @@ def activate():
     """
     Downloads, extracts and patches PyDev's pysrc
     """
-    shutil.rmtree(download_folder)
+    shutil.rmtree(download_folder, ignore_errors=True)
     os.mkdir(download_folder)
+    progress = xbmcgui.DialogProgress()
+    progress.create('Downloading PyDev', "Opening %s" % download_url)
     xbmc.log("%s: Downloading..." % __addonname__)
     xbmc.log("%s: From '%s' to '%s' " % (__addonname__, download_url, download_file))
     try:
         file = urllib2.urlopen(download_url)
     except urllib2.URLError as e:
+        progress.close()
         dialog = xbmcgui.Dialog()
         dialog.ok('Error', 'Could not download from %s' % download_url.split('/')[2])
         xbmc.log('%s: Failed to download from  %s'% (__addonname__, download_url))
         xbmc.log('%s: %s'% (__addonname__, e.reason))
         return
-    progress = xbmcgui.DialogProgress()
-    progress.create('Downloading PyDev', "Opening %s" % download_url)
     output = open(download_file,'wb')
     meta = file.info()
     file_size = int(meta.getheaders("Content-Length")[0])
@@ -76,7 +77,7 @@ def activate():
     xbmc.log("%s: Moving..." % __addonname__)
     xbmc.log("%s: from %s" % (__addonname__, pysrc_folder))
     xbmc.log("%s: to %s" % (__addonname__, lib_folder))
-    shutil.rmtree(lib_folder)
+    shutil.rmtree(lib_folder, ignore_errors=True)
     shutil.copytree(pysrc_folder, lib_folder)
 
     #Apply the patch
