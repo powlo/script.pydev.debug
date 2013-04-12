@@ -5,6 +5,7 @@ import shutil
 import xbmc
 import xbmcgui
 import xbmcaddon
+import errno
 
 ### get addon info
 __addon__       = xbmcaddon.Addon(id='script.pydev.debug')
@@ -17,13 +18,17 @@ __addonpath__   = __addon__.getAddonInfo('path')
 ###Constants that may need to be updated in future revisions
 download_url = "http://sourceforge.net/projects/pydev/files/pydev/PyDev%202.7.3/PyDev%202.7.3.zip/download"
 download_folder = os.path.join(__addonpath__, 'resources', 'download')
+lib_folder = os.path.join(__addonpath__, 'resources', 'lib')
 patch_folder = os.path.join(__addonpath__, 'resources', 'patch')
 download_file =  os.path.join(download_folder, 'PyDev2.7.3.zip')
-pysrc_folder = 'plugins/org.python.pydev_2.7.3.2013031601/pysrc/'
-pysrc_download_folder = os.path.join(download_folder,pysrc_folder)
-pysrc_lib_folder = os.path.join(__addonpath__, 'resources', 'lib')
+pysrc_folder = os.path.join(download_folder,'plugins/org.python.pydev_2.7.3.2013031601/pysrc/')
 
 def activate():
+    """
+    Downloads, extracts and patches PyDev's pysrc
+    """
+    shutil.rmtree(download_folder)
+    os.mkdir(download_folder)
     xbmc.log("%s: Downloading..." % __addonname__)
     xbmc.log("%s: From '%s' to '%s' " % (__addonname__, download_url, download_file))
     try:
@@ -69,11 +74,10 @@ def activate():
     #Copy pysrc code to /lib/
     progress.update(95, "Moving files...")    
     xbmc.log("%s: Moving..." % __addonname__)
-    xbmc.log("%s: from %s" % (__addonname__, pysrc_download_folder))
-    xbmc.log("%s: to %s" % (__addonname__, pysrc_lib_folder))
-    if os.path.exists(pysrc_lib_folder):
-        shutil.rmtree(pysrc_lib_folder)
-    shutil.copytree(pysrc_download_folder, pysrc_lib_folder)
+    xbmc.log("%s: from %s" % (__addonname__, pysrc_folder))
+    xbmc.log("%s: to %s" % (__addonname__, lib_folder))
+    shutil.rmtree(lib_folder)
+    shutil.copytree(pysrc_folder, lib_folder)
 
     #Apply the patch
     progress.update(98, "Patching code...")        
@@ -81,7 +85,7 @@ def activate():
     file = open(patch, "r")
     content = file.read()
     file.close()
-    target = os.path.join(pysrc_lib_folder, 'pydevd_file_utils.py')
+    target = os.path.join(lib_folder, 'pydevd_file_utils.py')
     file = open(target, "a")
     file.write(content)
     file.close()
@@ -98,7 +102,7 @@ dialog = xbmcgui.Dialog()
 
 try:
     import pydevd
-    if pysrc_lib_folder not in pydevd.__file__:
+    if lib_folder not in pydevd.__file__:
         dialog.ok('Already Installed Elsewhere', 'pydevd is already on sys.path')
     else:
         ret = dialog.yesno('Already Installed', 'Do you want to install and patch PyDev anyway?')
