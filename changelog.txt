@@ -1,0 +1,11 @@
+------------------------------------------------------------------------------
+ 0.0.2 - 12/Apr/2013
+------------------------------------------------------------------------------
+Major rewrite. Code now downloads, extracts and patches pydev, making pydevd
+available on sys.path.
+
+------------------------------------------------------------------------------
+ 0.0.1 - 11/Apr/2013
+------------------------------------------------------------------------------
+First stab. Code creates a link to pysrc folder specified in settings.
+Won't work on Windows.
