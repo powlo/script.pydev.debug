@@ -92,7 +92,7 @@ def activate():
     file.close()
     progress.close()
     dialog = xbmcgui.Dialog()
-    dialog.ok('Done!','PyDev debug has been imported and patched')
+    dialog.ok('Done!','PyDev debug has been installed and patched')
 
 xbmc.log("######## Launching Script PyDev Debug........................")
 xbmc.log('## Add-on ID   = %s' % str(__addonid__))

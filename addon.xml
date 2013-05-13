@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.pydev.debug"
-       name="XMBC Pydev Debug"
-       version="0.0.2"
+       name="Pydev Debug"
+       version="0.0.3"
        provider-name="powlo">
   <requires>
     <import addon="xbmc.python" version="2.0"/>
@@ -10,7 +10,7 @@
   <extension point="xbmc.python.module" library="resources/lib"/>
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">XBMC support for Pydev debugging.</summary>
+    <summary lang="en">Support for Pydev debugging.</summary>
     <description lang="en">Downloads and patches PyDev and puts code on 'sys.path'.</description>
   </extension>
 </addon>
